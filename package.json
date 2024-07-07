@@ -1,0 +1,14 @@
+{
+  "name": "ovllmnodeaddon",
+  "version": "1.0.0",
+  "description": "OpenVINO LLM node.js C++ addon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rupesh Sreeraman",
+  "license": "ISC",
+  "dependencies": {
+    "node-addon-api": "^8.0.0"
+  }
+}

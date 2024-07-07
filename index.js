@@ -1,13 +1,13 @@
 const ovllm = require('./build/Release/ovllm');
 const readline = require('readline');
+
 const llmPath = process.argv[2];
+let token_count = 0;
 
 if (process.argv.length === 2) {
     console.error('Error: OpenVINO model path is required.');
     process.exit(1);
 }
-ovllm.initialize(llmPath, "CPU");
-let token_count = 0;
 function onStream(word) {
     token_count += 1;
     process.stdout.write(word);
@@ -34,15 +34,13 @@ function chatInterface() {
     });
 }
 
-console.log('OpenVINO LLM Node.js fast chat interface! Type "exit" to quit.');
-
-
-chatInterface();
-
-
 reader.on('close', () => {
     console.log('Bye...');
     ovllm.cleanup()
     process.exit(0);
 });
 
+ovllm.initialize(llmPath, "CPU");
+
+console.log('OpenVINO LLM Node.js fast chat interface! Type "exit" to quit.\n');
+chatInterface();

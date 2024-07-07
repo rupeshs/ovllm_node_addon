@@ -2,9 +2,23 @@
 # OpenVINO Genai LLM Node.js C++ addon
 
 This is a Node.js addon for OpenVINO Genai LLM.
+Tested using TinyLLama chat 1.1 OpenVINO int4 model on Windows 11.
+
+## Build
+
+- Visual Studio 2022 (C++)
+- Node 20.11 or higher
+- node-gyp
+- Python 3.11
+
+Run the following commands to build:
 
 ```
-node-gyp clean
+npm install
 node-gyp configue
 node-gyp build
 ```
+
+## Run
+
+`node index.js D:/demo/TinyLlama-1.1B-Chat-v1.0-openvino-int4`

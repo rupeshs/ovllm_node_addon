@@ -11,8 +11,6 @@ if (process.argv[3] === "nostream") {
     streaming = false;
 }
 
-ovllm.initialize(llmPath, "CPU", streaming);
-
 let token_count = 0;
 
 if (process.argv.length === 2) {
@@ -48,7 +46,6 @@ function chatInterface() {
             let response = ovllm.generate(message);
             console.log(response);
         }
-
         chatInterface();
     });
 }
@@ -61,7 +58,7 @@ reader.on('close', () => {
     process.exit(0);
 });
 
-ovllm.initialize(llmPath, "CPU");
+ovllm.initialize(llmPath, "CPU", streaming);
 
 console.log('OpenVINO LLM Node.js fast chat interface! Type "exit" to quit.\n');
 chatInterface();

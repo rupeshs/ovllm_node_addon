@@ -22,3 +22,11 @@ node-gyp build
 ## Run
 
 `node index.js D:/demo/TinyLlama-1.1B-Chat-v1.0-openvino-int4`
+
+Disable streaming
+
+`node index.js D:/demo/TinyLlama-1.1B-Chat-v1.0-openvino-int4 nostream`
+
+## Supported models
+
+Supported models are [here](https://github.com/openvinotoolkit/openvino.genai/blob/releases/2024/2/src/docs/SUPPORTED_MODELS.md)

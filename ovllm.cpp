@@ -2,23 +2,28 @@
 #include "openvino/genai/llm_pipeline.hpp"
 
 static ov::genai::LLMPipeline *pipe = nullptr;
+static bool streaming = false;
 
 Napi::Value Initialize(const Napi::CallbackInfo &info)
 {
     Napi::Env env = info.Env();
-    if (info.Length() < 2 || !info[0].IsString() || !info[1].IsString())
+    if (info.Length() < 3)
     {
-        Napi::TypeError::New(env, "Expected LLM path and device arguments").ThrowAsJavaScriptException();
+        Napi::TypeError::New(env, "Expected 3 arguments (LLM path,device,streaming)").ThrowAsJavaScriptException();
         return Napi::Boolean::New(env, false);
     }
     std::string llmPath = info[0].As<Napi::String>().Utf8Value();
     std::string device = info[1].As<Napi::String>().Utf8Value();
+    streaming = info[2].As<Napi::Boolean>().Value();
 
     std::cout << "OpenVINO LLM: " << llmPath << std::endl;
     std::cout << "Device : " << device << std::endl;
 
     pipe = new ov::genai::LLMPipeline(llmPath, device);
-    pipe->start_chat();
+    if (streaming)
+    {
+        pipe->start_chat();
+    }
     return Napi::Boolean::New(env, true);
 }
 
@@ -37,9 +42,10 @@ Napi::Value Generate(const Napi::CallbackInfo &info)
     }
 
     std::string prompt = info[0].As<Napi::String>().Utf8Value();
-
-    std::cout << pipe->generate(prompt);
-    return Napi::Boolean::New(env, true);
+    ov::genai::GenerationConfig config;
+    config.max_new_tokens = 256;
+    std::string response = pipe->generate(prompt, config);
+    return Napi::String::New(env, response);
 }
 Napi::Value GenerateStream(const Napi::CallbackInfo &info)
 {
@@ -84,7 +90,10 @@ Napi::Value GenerateStream(const Napi::CallbackInfo &info)
 }
 Napi::Value Cleanup(const Napi::CallbackInfo &info)
 {
-    pipe->finish_chat();
+    if (streaming)
+    {
+        pipe->finish_chat();
+    }
     Napi::Env env = info.Env();
     if (pipe != nullptr)
     {

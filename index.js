@@ -1,12 +1,19 @@
 const ovllm = require('./build/Release/ovllm');
 const readline = require('readline');
 const llmPath = process.argv[2];
+let streaming = true;
 
 if (process.argv.length === 2) {
     console.error('Error: OpenVINO model path is required.');
     process.exit(1);
 }
-ovllm.initialize(llmPath, "CPU");
+if (process.argv[3] === "nostream") {
+    streaming = false;
+}
+
+ovllm.initialize(llmPath, "CPU", streaming);
+// let response = ovllm.generate("Diabetes in 50 words");
+// console.log(response);
 
 let token_count = 0;
 function onStream(word) {
@@ -26,11 +33,19 @@ function chatInterface() {
             return;
         }
         console.log("AI:")
-        const startTime = new Date();
-        ovllm.generateStream(message, onStream)
-        const elapsedTime = (new Date() - startTime) / 1000;
-        console.log("\n");
-        console.log(Math.floor(token_count / elapsedTime), "Tokens/sec\n");
+
+        if (streaming) {
+            const startTime = new Date();
+            ovllm.generateStream(message, onStream)
+            const elapsedTime = (new Date() - startTime) / 1000;
+            console.log("\n");
+            console.log(Math.floor(token_count / elapsedTime), "Tokens/sec\n");
+        }
+        else {
+            let response = ovllm.generate(message);
+            console.log(response);
+        }
+
         chatInterface();
     });
 }

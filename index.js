@@ -12,10 +12,13 @@ if (process.argv[3] === "nostream") {
 }
 
 ovllm.initialize(llmPath, "CPU", streaming);
-// let response = ovllm.generate("Diabetes in 50 words");
-// console.log(response);
 
 let token_count = 0;
+
+if (process.argv.length === 2) {
+    console.error('Error: OpenVINO model path is required.');
+    process.exit(1);
+}
 function onStream(word) {
     token_count += 1;
     process.stdout.write(word);
@@ -51,14 +54,14 @@ function chatInterface() {
 }
 
 console.log('OpenVINO LLM Node.js fast chat interface! Type "exit" to quit.');
-
-
 chatInterface();
-
-
 reader.on('close', () => {
     console.log('Bye...');
     ovllm.cleanup()
     process.exit(0);
 });
 
+ovllm.initialize(llmPath, "CPU");
+
+console.log('OpenVINO LLM Node.js fast chat interface! Type "exit" to quit.\n');
+chatInterface();

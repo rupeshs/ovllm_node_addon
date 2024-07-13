@@ -1,7 +1,7 @@
 # Node.js OpenVINO LLM C++ addon
 
 This is a Node.js addon for [OpenVINO GenAI](https://github.com/openvinotoolkit/openvino.genai/) LLM.
-Tested using TinyLLama chat 1.1 OpenVINO int4 model on Windows 11.
+Tested using TinyLLama chat 1.1 OpenVINO int4 model on Windows 11 (Intel Core i7 CPU).
 
 Watch below YouTube video for demo :
 

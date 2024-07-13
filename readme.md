@@ -5,7 +5,7 @@ Tested using TinyLLama chat 1.1 OpenVINO int4 model on Windows 11.
 
 Watch below YouTube video for demo :
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/dAk8rlFE3QE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/dAk8rlFE3QE/0.jpg)](https://www.youtube.com/watch?v=dAk8rlFE3QE)
 
 ## Build
 
